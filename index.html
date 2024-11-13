@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Section</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet">
+    <style>
+        body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100vh;
+    position: relative;
+}
+
+.text-content {
+    z-index: 2;
+}
+
+.image-container {
+    position: relative;
+}
+
+.image {
+    width: 300px;
+    height: auto;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.image:hover {
+    opacity: 1;
+}
+
+.image-container .image:not(:hover) {
+    filter: grayscale(100%);
+}
+
+.image-container:hover .image {
+    transform: scale(1.05);
+}
+    </style>
+</head>
+
+<body>
+    <div class="container hero-section">
+        <div class="text-content">
+            <h1>Welcome to Our Site</h1>
+            <p>Experience the best of our services.</p>
+        </div>
+        <div class="image-container">
+            <img src="images/image1.jpg" class="image" alt="Image 1">
+            <img src="images/image2.jpg" class="image" alt="Image 2">
+            <img src="images/image3.jpg" class="image" alt="Image 3">
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script>
+        const images = document.querySelectorAll('.image');
+const textContent = document.querySelector('.text-content');
+
+images.forEach(image => {
+    image.addEventListener('mouseover', () => {
+        gsap.to(textContent, { color: '#ff0000', duration: 0.5 }); // Change text color on hover
+        image.style.opacity = '1';
+        gsap.to(images, { opacity: 0.3, duration: 0.5 });
+        gsap.to(image, { scale: 1.1, duration: 0.5 });
+    });
+
+    image.addEventListener('mouseout', () => {
+        gsap.to(textContent, { color: '#000000', duration: 0.5 }); // Revert text color
+        gsap.to(images, { opacity: 0.6, duration: 0.5 });
+        gsap.to(image, { scale: 1, duration: 0.5 });
+    });
+
+    image.addEventListener('mousemove', (e) => {
+        const rect = image.getBoundingClientRect();
+        const x = e.clientX - rect.left; // x position within the element
+        const y = e.clientY - rect.top; // y position within the element
+
+        gsap.to(image, {
+            x: (x - rect.width / 2) * 0.05,
+            y: (y - rect.height / 2) * 0.05,
+            duration: 0.1,
+            overwrite: true
+        });
+    });
+});
+    </script>
+</body>
+
+</html>
